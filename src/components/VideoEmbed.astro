@@ -1,0 +1,41 @@
+---
+import { parseVideoSource } from '../utils/video';
+
+interface Props {
+	url: string;
+	title: string;
+}
+
+const { url, title } = Astro.props;
+const source = parseVideoSource(url);
+---
+
+<div class="relative aspect-video w-full overflow-hidden border border-white/5 bg-ambi-surface">
+	{
+		source.type === 'local' && source.src ? (
+			<video
+				class="h-full w-full object-cover"
+				controls
+				playsinline
+				preload="metadata"
+				title={title}
+			>
+				<source src={source.src} type="video/mp4" />
+				Tu navegador no soporta la reproducción de video.
+			</video>
+		) : source.embedUrl ? (
+			<iframe
+				class="absolute inset-0 h-full w-full"
+				src={source.embedUrl}
+				title={title}
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen
+				loading="lazy"
+			/>
+		) : (
+			<div class="flex h-full items-center justify-center text-sm text-ambi-muted">
+				Video no disponible
+			</div>
+		)
+	}
+</div>

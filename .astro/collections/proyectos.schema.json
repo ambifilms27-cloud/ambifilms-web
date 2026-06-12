@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "descripcion": {
+      "type": "string"
+    },
+    "categoria": {
+      "type": "string",
+      "enum": [
+        "Cortometraje",
+        "Video Musical",
+        "Comercial",
+        "Documental",
+        "Corporativo",
+        "Evento",
+        "Otro"
+      ]
+    },
+    "videoPrincipal": {
+      "type": "string"
+    },
+    "imagenesBTS": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fecha": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "titulo",
+    "descripcion",
+    "categoria",
+    "videoPrincipal",
+    "fecha"
+  ]
+}

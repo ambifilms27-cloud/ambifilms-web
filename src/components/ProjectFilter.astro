@@ -1,0 +1,54 @@
+---
+interface Props {
+	categorias: string[];
+}
+
+const { categorias } = Astro.props;
+---
+
+<div class="flex flex-wrap justify-center gap-3" id="project-filters" role="group" aria-label="Filtrar por categoría">
+	<button
+		type="button"
+		data-filter="Todos"
+		class="filter-btn active border border-ambi-gold/50 px-5 py-2 text-[10px] tracking-[0.2em] text-ambi-gold uppercase transition-all duration-300"
+	>
+		Todos
+	</button>
+	{
+		categorias.map((categoria) => (
+			<button
+				type="button"
+				data-filter={categoria}
+				class="filter-btn border border-white/10 px-5 py-2 text-[10px] tracking-[0.2em] text-ambi-muted uppercase transition-all duration-300 hover:border-ambi-gold/30 hover:text-white"
+			>
+				{categoria}
+			</button>
+		))
+	}
+</div>
+
+<script>
+	const filters = document.getElementById('project-filters');
+	const cards = document.querySelectorAll<HTMLElement>('.project-card');
+	const buttons = filters?.querySelectorAll<HTMLButtonElement>('.filter-btn');
+
+	buttons?.forEach((button) => {
+		button.addEventListener('click', () => {
+			const selected = button.dataset.filter ?? 'Todos';
+
+			buttons.forEach((btn) => {
+				const isActive = btn === button;
+				btn.classList.toggle('border-ambi-gold/50', isActive);
+				btn.classList.toggle('text-ambi-gold', isActive);
+				btn.classList.toggle('border-white/10', !isActive);
+				btn.classList.toggle('text-ambi-muted', !isActive);
+			});
+
+			cards.forEach((card) => {
+				const match =
+					selected === 'Todos' || card.dataset.categoria === selected;
+				card.style.display = match ? '' : 'none';
+			});
+		});
+	});
+</script>

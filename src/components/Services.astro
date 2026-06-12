@@ -1,0 +1,61 @@
+---
+const services = [
+	{
+		title: 'Dirección Creativa',
+		description:
+			'Conceptualización, guion y dirección artística para proyectos con identidad visual única.',
+		number: '01',
+	},
+	{
+		title: 'Filmación',
+		description:
+			'Producción cinematográfica con equipos profesionales y un equipo técnico de primer nivel.',
+		number: '02',
+	},
+	{
+		title: 'Fotografía',
+		description:
+			'Captura de imagen fija y en movimiento con estética refinada para marca, eventos y cine.',
+		number: '03',
+	},
+];
+---
+
+<section id="producciones" class="relative bg-ambi-dark py-24 sm:py-32">
+	<div class="mx-auto max-w-7xl px-6 lg:px-8">
+		<div class="mx-auto max-w-2xl text-center">
+			<p class="text-xs tracking-[0.35em] text-ambi-gold uppercase">Nuestro enfoque</p>
+			<h2 class="mt-4 font-serif text-4xl font-light tracking-wide text-white sm:text-5xl">
+				Servicios
+			</h2>
+			<p class="mt-4 text-sm leading-relaxed text-ambi-muted">
+				Cada proyecto es una colaboración creativa diseñada para elevar tu visión.
+			</p>
+		</div>
+
+		<div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+			{
+				services.map((service) => (
+					<article class="group relative border border-white/5 bg-ambi-surface/50 p-8 transition-all duration-500 hover:border-ambi-gold/40 hover:bg-ambi-surface">
+						<span class="text-xs tracking-[0.2em] text-ambi-gold-muted">{service.number}</span>
+						<h3 class="mt-4 font-serif text-2xl tracking-wide text-white transition-colors duration-300 group-hover:text-ambi-gold">
+							{service.title}
+						</h3>
+						<p class="mt-4 text-sm leading-relaxed text-ambi-muted transition-opacity duration-300 group-hover:text-white/70">
+							{service.description}
+						</p>
+						<div
+							class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+							aria-hidden="true"
+						>
+							<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ambi-gold/50 to-transparent" />
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<!-- Placeholder para sección BTS futura -->
+<section id="bts" class="sr-only" aria-label="Behind the Scenes"></section>

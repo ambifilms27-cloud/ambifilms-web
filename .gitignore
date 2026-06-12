@@ -1,0 +1,6 @@
+.localized
+Adobe/
+**/Adobe Media Encoder/
+*.xml
+*.txt
+**/PCSX2*

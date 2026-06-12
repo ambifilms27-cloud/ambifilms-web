@@ -1,0 +1,87 @@
+---
+interface Props {
+	reelUrl?: string;
+}
+
+const { reelUrl = '#producciones' } = Astro.props;
+---
+
+<section class="relative flex min-h-screen items-center justify-center overflow-hidden">
+	<!-- Video background -->
+	<div class="absolute inset-0">
+		<video
+			class="absolute inset-0 h-full w-full object-cover opacity-40"
+			autoplay
+			muted
+			loop
+			playsinline
+			poster="/images/hero-poster.jpg"
+			aria-hidden="true"
+		>
+			<!-- Reemplaza con tu reel cuando esté listo -->
+			<source src="/videos/hero-reel.mp4" type="video/mp4" />
+		</video>
+
+		<!-- Fallback cinemático si el video no carga -->
+		<div class="cinematic-grain absolute inset-0" aria-hidden="true"></div>
+	</div>
+
+	<!-- Overlays -->
+	<div class="absolute inset-0 bg-ambi-dark/50" aria-hidden="true"></div>
+	<div
+		class="absolute inset-0 bg-gradient-to-b from-ambi-dark/30 via-transparent to-ambi-dark"
+		aria-hidden="true"
+	></div>
+
+	<!-- Content -->
+	<div class="relative z-10 mx-auto max-w-5xl px-6 text-center">
+		<p class="mb-6 text-xs tracking-[0.4em] text-ambi-gold uppercase">
+			Productora audiovisual
+		</p>
+
+		<h1
+			class="font-serif text-5xl leading-none font-light tracking-[0.15em] text-white sm:text-7xl lg:text-8xl"
+		>
+			AMBI FILMS
+		</h1>
+
+		<p class="mx-auto mt-6 max-w-md text-base tracking-wide text-white/70 sm:text-lg">
+			Historias que cobran vida
+		</p>
+
+		<div class="mt-12">
+			<a
+				href={reelUrl}
+				class="group relative inline-flex items-center gap-3 border border-ambi-gold/40 px-10 py-4 text-xs tracking-[0.25em] text-white uppercase transition-all duration-500 hover:border-ambi-gold hover:bg-ambi-gold/5"
+			>
+				<span class="relative z-10">Ver Reel</span>
+				<svg
+					class="relative z-10 h-3 w-3 transition-transform duration-500 group-hover:translate-x-1"
+					viewBox="0 0 12 12"
+					fill="none"
+					aria-hidden="true"
+				>
+					<path
+						d="M1 6h10M7 2l4 4-4 4"
+						stroke="currentColor"
+						stroke-width="1"
+						stroke-linecap="round"
+						stroke-linejoin="round"></path>
+				</svg>
+				<span
+					class="absolute inset-0 scale-x-0 bg-ambi-gold/10 transition-transform duration-500 group-hover:scale-x-100"
+					aria-hidden="true"
+				></span>
+			</a>
+		</div>
+	</div>
+
+	<!-- Scroll indicator -->
+	<div
+		class="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+		aria-hidden="true"
+	>
+		<span class="text-[10px] tracking-[0.3em] text-ambi-muted uppercase">Scroll</span>
+		<span class="block h-8 w-px animate-pulse bg-ambi-gold/50"></span>
+	</div>
+</section>

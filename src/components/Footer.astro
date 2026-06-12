@@ -1,0 +1,55 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+	{ label: 'Instagram', href: 'https://instagram.com' },
+	{ label: 'Vimeo', href: 'https://vimeo.com' },
+	{ label: 'YouTube', href: 'https://youtube.com' },
+];
+---
+
+<footer id="contacto" class="border-t border-white/5 bg-ambi-dark">
+	<div class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+		<div class="flex flex-col items-center gap-10 text-center md:flex-row md:items-start md:justify-between md:text-left">
+			<div class="max-w-sm">
+				<p class="font-serif text-2xl tracking-[0.2em] text-white">AMBI FILMS</p>
+				<p class="mt-3 text-sm leading-relaxed text-ambi-muted">
+					Productora audiovisual especializada en narrativas visuales de alto impacto.
+				</p>
+			</div>
+
+			<div class="flex flex-col gap-3">
+				<p class="text-xs tracking-[0.2em] text-ambi-gold uppercase">Contacto</p>
+				<a
+					href="mailto:hello@ambifilms.com"
+					class="text-sm text-white/80 transition-colors duration-300 hover:text-ambi-gold"
+				>
+					hello@ambifilms.com
+				</a>
+			</div>
+
+			<ul class="flex gap-8">
+				{
+					footerLinks.map((link) => (
+						<li>
+							<a
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-xs tracking-[0.15em] text-ambi-muted uppercase transition-colors duration-300 hover:text-white"
+							>
+								{link.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<div class="mt-14 border-t border-white/5 pt-8 text-center">
+			<p class="text-xs tracking-wider text-ambi-muted/60">
+				&copy; {currentYear} Ambi Films. Todos los derechos reservados.
+			</p>
+		</div>
+	</div>
+</footer>

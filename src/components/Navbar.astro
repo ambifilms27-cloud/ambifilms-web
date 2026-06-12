@@ -1,0 +1,109 @@
+---
+const navLinks = [
+	{ label: 'Inicio', href: '/' },
+	{ label: 'Producciones', href: '/producciones' },
+	{ label: 'BTS', href: '/producciones#bts' },
+	{ label: 'Contacto', href: '/#contacto' },
+];
+---
+
+<header
+	class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-ambi-dark/80 backdrop-blur-md"
+>
+	<nav
+		class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8"
+		aria-label="Navegación principal"
+	>
+		<a
+			href="/"
+			class="font-serif text-lg tracking-[0.25em] text-white transition-opacity duration-300 hover:opacity-70"
+		>
+			AMBI
+		</a>
+
+		<!-- Desktop -->
+		<ul class="hidden items-center gap-10 md:flex">
+			{
+				navLinks.map((link) => (
+					<li>
+						<a
+							href={link.href}
+							class="text-xs tracking-[0.2em] text-ambi-muted uppercase transition-colors duration-300 hover:text-ambi-gold"
+						>
+							{link.label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<!-- Mobile toggle -->
+		<button
+			type="button"
+			id="nav-toggle"
+			class="relative z-50 flex h-10 w-10 items-center justify-center md:hidden"
+			aria-label="Abrir menú"
+			aria-expanded="false"
+			aria-controls="mobile-menu"
+		>
+			<span class="sr-only">Menú</span>
+			<span class="nav-bar absolute h-px w-5 bg-white transition-all duration-300 -translate-y-1.5"></span>
+			<span class="nav-bar absolute h-px w-5 bg-white transition-all duration-300"></span>
+			<span class="nav-bar absolute h-px w-5 bg-white transition-all duration-300 translate-y-1.5"></span>
+		</button>
+	</nav>
+
+	<!-- Mobile menu -->
+	<div
+		id="mobile-menu"
+		class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-ambi-dark/95 opacity-0 backdrop-blur-lg transition-opacity duration-300 md:hidden"
+		aria-hidden="true"
+	>
+		{
+			navLinks.map((link) => (
+				<a
+					href={link.href}
+					class="mobile-link font-serif text-3xl tracking-[0.15em] text-white/80 transition-colors duration-300 hover:text-ambi-gold"
+				>
+					{link.label}
+				</a>
+			))
+		}
+	</div>
+</header>
+
+<script>
+	const toggle = document.getElementById('nav-toggle');
+	const menu = document.getElementById('mobile-menu');
+	const bars = toggle?.querySelectorAll('.nav-bar');
+	const links = menu?.querySelectorAll('.mobile-link');
+
+	if (toggle && menu && bars) {
+		let open = false;
+
+		const setOpen = (value: boolean) => {
+			open = value;
+			toggle.setAttribute('aria-expanded', String(value));
+			toggle.setAttribute('aria-label', value ? 'Cerrar menú' : 'Abrir menú');
+			menu.setAttribute('aria-hidden', String(!value));
+			menu.classList.toggle('pointer-events-none', !value);
+			menu.classList.toggle('opacity-0', !value);
+			menu.classList.toggle('opacity-100', value);
+
+			bars[0]?.classList.toggle('-translate-y-1.5', !value);
+			bars[0]?.classList.toggle('translate-y-0', value);
+			bars[0]?.classList.toggle('rotate-45', value);
+			bars[1]?.classList.toggle('opacity-0', value);
+			bars[2]?.classList.toggle('translate-y-1.5', !value);
+			bars[2]?.classList.toggle('translate-y-0', value);
+			bars[2]?.classList.toggle('-rotate-45', value);
+			document.body.classList.toggle('overflow-hidden', value);
+		};
+
+		toggle.addEventListener('click', () => setOpen(!open));
+
+		links?.forEach((link) => {
+			link.addEventListener('click', () => setOpen(false));
+		});
+	}
+</script>

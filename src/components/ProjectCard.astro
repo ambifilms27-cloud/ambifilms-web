@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatFecha } from '../utils/date';
+
+interface Props {
+	proyecto: CollectionEntry<'proyectos'>;
+}
+
+const { proyecto } = Astro.props;
+const { titulo, descripcion, categoria, fecha, imagenesBTS } = proyecto.data;
+const portada = imagenesBTS[0];
+---
+
+<article
+	class="project-card group relative flex flex-col overflow-hidden border border-white/5 bg-ambi-surface/40 transition-all duration-500 hover:border-ambi-gold/40"
+	data-categoria={categoria}
+>
+	<a href={`/producciones/${proyecto.id}`} class="flex flex-1 flex-col">
+		<div class="relative aspect-[16/10] overflow-hidden bg-ambi-surface">
+			{
+				portada ? (
+					<Image
+						src={portada}
+						alt={`Portada de ${titulo}`}
+						class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+						width={800}
+						height={500}
+					/>
+				) : (
+					<div class="cinematic-grain flex h-full w-full items-center justify-center">
+						<span class="font-serif text-4xl tracking-[0.3em] text-white/10 uppercase">Ambi</span>
+					</div>
+				)
+			}
+			<div
+				class="absolute inset-0 bg-gradient-to-t from-ambi-dark/80 via-transparent to-transparent"
+				aria-hidden="true"
+			/>
+			<span
+				class="absolute top-4 left-4 border border-ambi-gold/30 px-3 py-1 text-[10px] tracking-[0.2em] text-ambi-gold uppercase"
+			>
+				{categoria}
+			</span>
+		</div>
+
+		<div class="flex flex-1 flex-col p-6">
+			<time class="text-[10px] tracking-[0.2em] text-ambi-muted uppercase" datetime={fecha.toISOString()}>
+				{formatFecha(fecha)}
+			</time>
+			<h3 class="mt-3 font-serif text-2xl tracking-wide text-white transition-colors duration-300 group-hover:text-ambi-gold">
+				{titulo}
+			</h3>
+			<p class="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-ambi-muted">
+				{descripcion}
+			</p>
+			<span
+				class="mt-6 inline-flex items-center gap-2 text-xs tracking-[0.2em] text-white/60 uppercase transition-colors duration-300 group-hover:text-ambi-gold"
+			>
+				Ver proyecto
+				<svg class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+					<path d="M1 6h10M7 2l4 4-4 4" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</span>
+		</div>
+	</a>
+</article>

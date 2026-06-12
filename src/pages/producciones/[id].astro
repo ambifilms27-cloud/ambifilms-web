@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { formatFecha } from '../../utils/date';
+
+export async function getStaticPaths() {
+	const proyectos = await getCollection('proyectos');
+
+	return proyectos.map((proyecto) => ({
+		params: { id: proyecto.id },
+	}));
+}
+
+const { id } = Astro.params;
+
+if (!id) {
+	return Astro.redirect('/producciones');
+}
+
+const proyecto = await getEntry('proyectos', id);
+
+if (!proyecto) {
+	return Astro.redirect('/producciones');
+}
+
+const { Content } = await render(proyecto);
+const { titulo, descripcion, categoria, videoPrincipal, imagenesBTS, fecha } = proyecto.data;
+---
+
+<Layout title={`${titulo} — Ambi Films`} description={descripcion}>
+	<article class="bg-ambi-dark pt-28 pb-24 sm:pt-36 sm:pb-32">
+		<div class="mx-auto max-w-5xl px-6 lg:px-8">
+			<a
+				href="/producciones"
+				class="inline-flex items-center gap-2 text-xs tracking-[0.2em] text-ambi-muted uppercase transition-colors duration-300 hover:text-ambi-gold"
+			>
+				<svg class="h-3 w-3" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+					<path d="M8 1L3 6l5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+				Volver al portafolio
+			</a>
+
+			<header class="mt-10 max-w-3xl">
+				<div class="flex flex-wrap items-center gap-4">
+					<span class="border border-ambi-gold/30 px-3 py-1 text-[10px] tracking-[0.2em] text-ambi-gold uppercase">
+						{categoria}
+					</span>
+					<time class="text-[10px] tracking-[0.2em] text-ambi-muted uppercase" datetime={fecha.toISOString()}>
+						{formatFecha(fecha)}
+					</time>
+				</div>
+				<h1 class="mt-6 font-serif text-4xl font-light tracking-wide text-white sm:text-5xl lg:text-6xl">
+					{titulo}
+				</h1>
+				<p class="mt-6 text-base leading-relaxed text-ambi-muted sm:text-lg">
+					{descripcion}
+				</p>
+			</header>
+
+			<div class="mt-12">
+				<VideoEmbed url={videoPrincipal} title={titulo} />
+			</div>
+
+			{
+				proyecto.body && (
+					<div class="prose prose-invert mt-12 max-w-none text-sm leading-relaxed text-white/70 prose-headings:font-serif prose-headings:font-light prose-headings:tracking-wide prose-a:text-ambi-gold">
+						<Content />
+					</div>
+				)
+			}
+
+			{
+				imagenesBTS.length > 0 && (
+					<section class="mt-20" id="bts">
+						<h2 class="font-serif text-3xl tracking-wide text-white">Behind the Scenes</h2>
+						<p class="mt-2 text-sm text-ambi-muted">Imágenes del rodaje y proceso creativo.</p>
+						<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{imagenesBTS.map((imagen, index) => (
+								<div class="group relative aspect-[4/3] overflow-hidden border border-white/5">
+									<Image
+										src={imagen}
+										alt={`BTS ${titulo} — ${index + 1}`}
+										class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+										width={600}
+										height={450}
+									/>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
+		</div>
+	</article>
+</Layout>
